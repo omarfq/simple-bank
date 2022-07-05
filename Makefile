@@ -4,13 +4,16 @@ postgres:
 createdb:
 	docker exec -it postgres14 createdb --username=root --owner=root simple_bank
 
+dropdb:
+	docker -it postgres14 dropdb simple_bank
+
 migrateup:
 	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migratedown:
 	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
-dropdb:
-	docker -it postgres14 dropdb simple_bank
+sqlc:
+	sqlc generate
 
-.PHONY: postgres createdb dropdb migrateup migratedown
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc
